@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Web Browser</title>
+    <style>
+        /* CSS styles for the browser interface */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin: 20px;
+        }
+        
+        #address-bar {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        #go-button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        
+        #browser-frame {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+        
+        #navigation-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="address-bar" placeholder="Enter URL">
+        <button id="go-button">Go</button>
+        <div id="navigation-buttons">
+            <button id="back-button">Back</button>
+            <button id="forward-button">Forward</button>
+        </div>
+        <div id="browser-frame"></div>
+    </div>
+
+    <script>
+        var websiteStack = []; // Stack to keep track of visited websites
+        var currentIndex = -1; // Index to keep track of the current website
+
+        // Retrieve elements
+        var addressBar = document.getElementById("address-bar");
+        var goButton = document.getElementById("go-button");
+        var backButton = document.getElementById("back-button");
+        var forwardButton = document.getElementById("forward-button");
+        var browserFrame = document.getElementById("browser-frame");
+
+        // Function to load a URL in the browser frame
+        function loadURL() {
+            var url = addressBar.value;
+            browserFrame.src = "https://" + url;
+            websiteStack.push(url);
+            currentIndex++;
+            updateNavigationButtons();
+        }
+
+        // Function to navigate back
+        function goBack() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Function to navigate forward
+        function goForward() {
+            if (currentIndex < websiteStack.length - 1) {
+                currentIndex++;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Update the navigation buttons based on the current state
+        function updateNavigationButtons() {
+            backButton.disabled = currentIndex <= 0;
+            forwardButton.disabled = currentIndex >= websiteStack.length - 1;
+        }
+
+        // Add event listeners
+        goButton.addEventListener("click", loadURL);
+        backButton.addEventListener("click", goBack);
+        forwardButton.addEventListener("click", goForward);
+
+        // Set initial URL and load the page
+        var initialUrl = "www.example.com";  // Set the initial URL here
+        addressBar.value = initialUrl;
+        loadURL();
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Web Browser</title>
+    <style>
+        /* CSS styles for the browser interface */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin: 20px;
+        }
+        
+        #address-bar {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        #go-button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        
+        #browser-frame {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+        
+        #navigation-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="address-bar" placeholder="Enter URL">
+        <button id="go-button">Go</button>
+        <div id="navigation-buttons">
+            <button id="back-button">Back</button>
+            <button id="forward-button">Forward</button>
+        </div>
+        <div id="browser-frame"></div>
+    </div>
+
+    <script>
+        var websiteStack = []; // Stack to keep track of visited websites
+        var currentIndex = -1; // Index to keep track of the current website
+
+        // Retrieve elements
+        var addressBar = document.getElementById("address-bar");
+        var goButton = document.getElementById("go-button");
+        var backButton = document.getElementById("back-button");
+        var forwardButton = document.getElementById("forward-button");
+        var browserFrame = document.getElementById("browser-frame");
+
+        // Function to load a URL in the browser frame
+        function loadURL() {
+            var url = addressBar.value;
+            var backendUrl = "http://localhost:3000/fetch?url=" + url;
+            fetch(backendUrl)
+              .then(response => response.text())
+              .then(content => {
+                browserFrame.innerHTML = content;
+                websiteStack.push(url);
+                currentIndex++;
+                updateNavigationButtons();
+              })
+              .catch(error => {
+                console.error("Error loading URL:", error);
+              });
+        }
+
+        // Function to navigate back
+        function goBack() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Function to navigate forward
+        function goForward() {
+            if (currentIndex < websiteStack.length - 1) {
+                currentIndex++;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Update the navigation buttons based on the current state
+        function updateNavigationButtons() {
+            backButton.disabled = currentIndex <= 0;
+            forwardButton.disabled = currentIndex >= websiteStack.length - 1;
+        }
+
+        // Add event listeners
+        goButton.addEventListener("click", loadURL);
+        backButton.addEventListener("click", goBack);
+        forwardButton.addEventListener("click", goForward);
+
+        // Set initial URL and load the page
+        var initialUrl = "www.example.com";  // Set the initial URL here
+        addressBar.value = initialUrl;
+        loadURL();
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Web Browser</title>
+    <style>
+        /* CSS styles for the browser interface */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin: 20px;
+        }
+        
+        #address-bar {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        #go-button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        
+        #browser-frame {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+        
+        #navigation-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="address-bar" placeholder="Enter URL">
+        <button id="go-button">Go</button>
+        <div id="navigation-buttons">
+            <button id="back-button">Back</button>
+            <button id="forward-button">Forward</button>
+        </div>
+        <div id="browser-frame"></div>
+    </div>
+
+    <script>
+        var websiteStack = []; // Stack to keep track of visited websites
+        var currentIndex = -1; // Index to keep track of the current website
+
+        // Retrieve elements
+        var addressBar = document.getElementById("address-bar");
+        var goButton = document.getElementById("go-button");
+        var backButton = document.getElementById("back-button");
+        var forwardButton = document.getElementById("forward-button");
+        var browserFrame = document.getElementById("browser-frame");
+
+        // Function to load a URL in the browser frame
+        function loadURL() {
+            var url = addressBar.value;
+            var backendUrl = "http://localhost:3000/fetch?url=" + encodeURIComponent(url);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", backendUrl, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    browserFrame.innerHTML = xhr.responseText;
+                    websiteStack.push(url);
+                    currentIndex++;
+                    updateNavigationButtons();
+                }
+            };
+            xhr.send();
+        }
+
+        // Function to navigate back
+        function goBack() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Function to navigate forward
+        function goForward() {
+            if (currentIndex < websiteStack.length - 1) {
+                currentIndex++;
+                browserFrame.src = "https://" + websiteStack[currentIndex];
+                updateNavigationButtons();
+            }
+        }
+
+        // Update the navigation buttons based on the current state
+        function updateNavigationButtons() {
+            backButton.disabled = currentIndex <= 0;
+            forwardButton.disabled = currentIndex >= websiteStack.length - 1;
+        }
+
+        // Add event listeners
+        goButton.addEventListener("click", loadURL);
+        backButton.addEventListener("click", goBack);
+        forwardButton.addEventListener("click", goForward);
+
+        // Set initial URL and load the page
+        var initialUrl = "www.example.com";  // Set the initial URL here
+        addressBar.value = initialUrl;
+        loadURL();
+    </script>
+</body>
+</html>
